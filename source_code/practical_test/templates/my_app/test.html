@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<html>
+<body>
+   <!-- Start Banner Area -->
+  <section class="banner-area organic-breadcrumb">
+      <div class="container">
+          <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+              <div class="col-first">
+                  <h1>Checkout</h1>
+                  <nav class="d-flex align-items-center">
+                      <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                      <a href="single-product.html">Checkout</a>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </section>
+   <!-- End Banner Area -->
+<div class="container">
+  <div class="row">
+    <form>
+      <div class="col-lg-8">
+        <div class="returning_customer">
+                  <div class="check_title">
+                      <h2>Returning Customer? <a href="#">Click here to login</a></h2>
+                  </div>
+                  <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new
+                      customer, please proceed to the Billing & Shipping section.</p>
+                  <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                      <div class="col-md-6 form-group p_star">
+                          <input type="text" class="form-control" id="name" name="name">
+                          <span class="placeholder" data-placeholder="Username or Email"></span>
+                      </div>
+                      <div class="col-md-6 form-group p_star">
+                          <input type="password" class="form-control" id="password" name="password">
+                          <span class="placeholder" data-placeholder="Password"></span>
+                      </div>
+                      <div class="col-md-12 form-group">
+                          <button type="submit" value="submit" class="primary-btn">login</button>
+                          <div class="creat_account">
+                              <input type="checkbox" id="f-option" name="selector">
+                              <label for="f-option">Remember me</label>
+                          </div>
+                          <a class="lost_pass" href="#">Lost your password?</a>
+                      </div>
+                  </form>
+              </div>
+      </div>
+    </form>
+  </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <form method="POST">
+          {% csrf_token %}
+          <h5> Billing Details </h5>
+          <div class="form-row">
+            <!--<div class="form-group col-lg-4" id="div_id_first_name">
+                {{ checkout_form.name }}
+            </div>
+            <div class="form-group col-lg-4" id="div_id_last_name">
+              {{ checkout_form.last_name }}
+            </div>-->
+          </div>
+          <div class="form-group" id="div_id_phone_number">
+            {{ checkout_form.phone_number }}
+            <!--<label for="inpute_mail">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
+          </div>
+          <div class="form-group" id="div_id_e_mail">
+            {{ checkout_form.e_mail }}
+            <!--<label for="inpute_mail">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
+          </div>
+          <div class="form-group" id="div_id_address_line_1">
+            {{ checkout_form.address_line_1 }}
+            <!--<label for="inputaddress_line_1">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
+          </div>
+          <div class="form-group" id="div_id_address_line_2">
+            {{ checkout_form.address_line_2 }}
+            <!--<label for="inputaddress_line_2">Address 2</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">-->
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4" id="div_id_country">
+              {{ checkout_form.country }}
+              <!--<label for="inputcountry">Country</label>
+              <select id="inputCountry" class="form-control"><option selected>Choose...</option> <option>...</option>
+              </select>-->
+            </div>
+            <div class="form-group col-md-4" id="div_id_state">
+              {{ checkout_form.state }}
+              <!--<label for="inputstate">State</label>
+                            <select id="inputState" class="form-control">
+                <option selected>Choose...</option><option>...</option>
+              </select>-->
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4" id="div_id_city">
+              {{ checkout_form.city }}
+              <!--<label for="inputCity">City</label>
+              <input type="text" class="form-control" id="inputCity">-->
+            </div>
+            <div class="form-group col-md-4" id="div_id_postal_code">
+              {{ checkout_form.postal_code }}
+              <!--<label for="inputZip">Zip</label>
+              <input type="text" class="form-control" id="inputZip">-->
+            </div>
+          </div>
+            <!--
+          <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="terms_conditions" id="terms_conditions"
+                       value="terms_conditions">
+                {{checkout_form.terms_conditions}}
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+              <label class="form-check-label" for="gridCheck">
+                Check me out
+              </label>
+            </div>
+          </div>-->
+          <div class="form-group col-sm-2" id="div_id_payment_options">
+            {% for value, name in  checkout_form.fields.payment_options.choices %}
+
+              <div class="input-group-text">
+                <input type="radio" name=payment_options aria-label="{{ name }}" id="{{name}}" value="{{value}}">
+                <label> {{name}}</label>
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" id="div_id_submit" class="btn btn-primary">Checkout</button>
+        </form>
+      </div>
+      <div class="col-lg-4">
+          <div class="order_box">
+              <h2>Your Order</h2>
+              {% for obj in checkout_obj %}
+                  <ul class="list">
+                      <li><a href="#">Product <span>Total</span></a></li>
+                      <li><a href="#">{{ obj}} <span class="middle">x {{ obj }}</span> <span class="last">$720.00</span></a></li>
+                      <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
+                      <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
+                  </ul>
+                  <ul class="list list_2">
+                      <li><a href="#">Subtotal <span>$2160.00</span></a></li>
+                      <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
+                      <li><a href="#">Total <span>$2210.00</span></a></li>
+                  </ul>
+              {% endfor %}
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>
+
+{% endblock content %}
